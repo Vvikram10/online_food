@@ -37,10 +37,10 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser,PermissionsMixin):
-    RESTAURENT = 1
+    VENDOR = 1
     CUSTOMER = 2
     ROLE_CHOICES = (
-        (RESTAURENT,'Restaurent'),
+        (VENDOR,'Vendor'),
         (CUSTOMER,'Customer'),
     )
 
@@ -79,6 +79,16 @@ class User(AbstractBaseUser,PermissionsMixin):
     def has_module_perms(self, app_label):
         "Check if the user has access to a specific app"
         return self.is_superuser or super().has_module_perms(app_label)
+    
+    def get_role(self):
+        if self.role == 1:
+            user_role = 'Vendor'
+        elif self.role == 2:
+            user_role = 'Customer'  # Corrected assignment
+        else:
+            user_role = 'Unknown'  # Handle cases where role is not 1 or 2
+        return user_role
+
     
 
 
